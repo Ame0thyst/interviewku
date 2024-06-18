@@ -6,7 +6,16 @@ const {
   PutAuthenticationResponseSchema,
   DeleteAuthenticationPayloadSchema,
   DeleteAuthenticationResponseSchema,
+  PutChangePasswordResponseSchema,
+  PutChangePasswordPayloadSchema,
+  ResetPasswordPayloadSchema,
+  ResetPasswordResponseSchema,
+  VerifyOtpPayloadSchema,
+  VerifyOtpResponseSchema,
+  ChangePasswordPayloadSchema,
+  ChangePasswordResponseSchema,
 } = require('../../validator/authentication/schema');
+const { WithTokenRequestSchema } = require('../../validator/general/schema');
 
 const routes = (handler) => [
   {
@@ -52,6 +61,68 @@ const routes = (handler) => [
         },
       },
       response: { schema: DeleteAuthenticationResponseSchema },
+    },
+  },
+  {
+    method: 'PUT',
+    path: '/change-password',
+    options: {
+      handler: (request, h) => handler.changePasswordHandler(request, h),
+      auth: 'interviewku_jwt',
+      tags: ['api'],
+      validate: {
+        headers: WithTokenRequestSchema,
+        payload: PutChangePasswordPayloadSchema,
+        failAction: (request, h, error) => {
+          throw new InvariantError(error.message);
+        },
+      },
+      response: { schema: PutChangePasswordResponseSchema },
+    },
+  },
+  {
+    method: 'POST',
+    path: '/reset-password',
+    options: {
+      handler: (request, h) => handler.sendOtpToEmail(request, h),
+      tags: ['api'],
+      validate: {
+        payload: ResetPasswordPayloadSchema,
+        failAction: (request, h, error) => {
+          throw new InvariantError(error.message);
+        },
+      },
+      response: { schema: ResetPasswordResponseSchema },
+    },
+  },
+  {
+    method: 'POST',
+    path: '/reset-password/verify',
+    options: {
+      handler: (request, h) => handler.verifyOtp(request, h),
+      tags: ['api'],
+      validate: {
+        payload: VerifyOtpPayloadSchema,
+        failAction: (request, h, error) => {
+          throw new InvariantError(error.message);
+        },
+      },
+      response: { schema: VerifyOtpResponseSchema },
+    },
+  },
+  {
+    method: 'PUT',
+    path: '/reset-password',
+    options: {
+      handler: (request, h) => handler.changePassword(request, h),
+      tags: ['api'],
+      validate: {
+        payload: ChangePasswordPayloadSchema,
+        failAction: (request, h, error) => {
+          throw new InvariantError(error.message);
+        },
+      },
+      response: { schema: ChangePasswordResponseSchema },
     },
   },
 ];

@@ -4,10 +4,12 @@ exports.shorthands = undefined;
 
 exports.up = (pgm) => {
   pgm.createTable('test_histories', {
-    id: 'id',
+    id: {
+      type: 'VARCHAR(50)',
+      primaryKey: true,
+    },
     user_id: {
       type: 'VARCHAR(50)',
-      unique: true,
       notNull: true,
       references: '"users"',
       onDelete: 'cascade',
@@ -17,13 +19,18 @@ exports.up = (pgm) => {
       type: 'VARCHAR(50)',
       notNull: true,
     },
-    is_complete: {
-      type: 'boolean',
+    job_field_name: {
+      type: 'VARCHAR(50)',
+      notNull: false,
+    },
+    total_questions: {
+      type: 'integer',
       notNull: true,
     },
-    feedback: {
-      type: 'TEXT',
+    completed: {
+      type: 'boolean',
       notNull: true,
+      default: false,
     },
     created_at: {
       type: 'timestamp',
@@ -32,8 +39,7 @@ exports.up = (pgm) => {
     },
     updated_at: {
       type: 'timestamp',
-      notNull: true,
-      default: pgm.func('current_timestamp'),
+      notNull: false,
     },
   });
 };

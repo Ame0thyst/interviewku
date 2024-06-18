@@ -1,0 +1,10 @@
+<resources>
+    <!-- Base application theme. -->
+    <style name="Base.Theme.InterviewKu" parent="Theme.Material3.DayNight.NoActionBar">
+        <item name="colorPrimary">@color/light_blue</item>
+        <item name="colorPrimaryVariant">@color/dark_blue</item>
+        <item name="iconTint">@color/black</item>
+    </style>
+
+    <style name="Theme.InterviewKu" parent="Base.Theme.InterviewKu" />
+</resources>

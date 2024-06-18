@@ -1,2 +1,5 @@
 node_modules
 .env
+.env.prod
+google-cloud-key.json
+deploy.internal.sh

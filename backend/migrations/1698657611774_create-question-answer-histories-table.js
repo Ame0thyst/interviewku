@@ -4,50 +4,52 @@ exports.shorthands = undefined;
 
 exports.up = (pgm) => {
   pgm.createTable('question_answer_histories', {
-    id: 'id',
+    id: {
+      type: 'VARCHAR(50)',
+      primaryKey: true,
+    },
     test_history_id: {
-      type: 'integer',
+      type: 'VARCHAR(50)',
       notNull: true,
       references: '"test_histories"',
       onDelete: 'cascade',
       onUpdate: 'cascade',
     },
-    job_field: {
-      type: 'VARCHAR(50)',
+    question_order: {
+      type: 'integer',
       notNull: true,
     },
-    job_position: {
+    job_field_name: {
       type: 'VARCHAR(50)',
-      notNull: true,
+      notNull: false,
     },
     audio_url: {
       type: 'TEXT',
-      notNull: true,
+      notNull: false,
     },
     score: {
-      type: 'integer',
-      notNull: true,
+      type: 'float',
+      notNull: false,
     },
     duration: {
-      type: 'bigint',
-      notNull: true,
+      type: 'float',
+      notNull: false,
     },
     retry_attempt: {
       type: 'integer',
-      notNull: true,
-      default: 0,
+      notNull: false,
     },
     question: {
       type: 'TEXT',
       notNull: true,
     },
-    feedback: {
-      type: 'TEXT',
-      notNull: true,
+    struktur_score: {
+      type: 'float',
+      notNull: false,
     },
     user_answer: {
       type: 'TEXT',
-      notNull: true,
+      notNull: false,
     },
     created_at: {
       type: 'timestamp',
@@ -56,8 +58,7 @@ exports.up = (pgm) => {
     },
     updated_at: {
       type: 'timestamp',
-      notNull: true,
-      default: pgm.func('current_timestamp'),
+      notNull: false,
     },
   });
 };
